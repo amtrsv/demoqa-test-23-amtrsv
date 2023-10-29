@@ -3,8 +3,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.Selenide.*;
 
 public class StudentRegistrationFormTest {
     @BeforeAll
@@ -19,38 +19,39 @@ public class StudentRegistrationFormTest {
     @Test
     void myFirstTest(){
         open("/automation-practice-form");
+        executeJavaScript("$('#fixedban').remove()");
+        executeJavaScript("$('footer').remove()");
         $("#firstName").setValue("Andrey");
         $("#lastName").setValue("Matrosov");
         $("#userEmail").setValue("andrey@matrosov.ru");
-        $("[for='gender-radio-1']").click();
+        $("#genterWrapper").$(byText("Male")).click();
         $("#userNumber").setValue("1234567890");
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption("November");
         $(".react-datepicker__year-select").selectOption("1994");
         $(".react-datepicker__day--017").click();
         $("#subjectsInput").val("English").pressEnter();
-        $("[for='hobbies-checkbox-1']").click();
-        $("[for='hobbies-checkbox-2']").click();
-        $("[for='hobbies-checkbox-3']").click();
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Reading")).click();
+        $("#hobbiesWrapper").$(byText("Music")).click();
         $("#uploadPicture").uploadFromClasspath("amtrsv.png");
         $("#currentAddress").setValue("Moscow");
         $("#react-select-3-input").val("Haryana").pressEnter();
         $("#react-select-4-input").val("Karnal").pressEnter();
         $("#submit").pressEnter();
 
-        $(".table-responsive").shouldHave(
-                text("Andrey"),
-                text("Matrosov"),
-                text("1234567890"),
-                text("17 November,1994"),
-                text("English"),
-                text("Sports, Reading, Music"),
-                text("amtrsv.png"),
-                text("Moscow"),
-                text("Haryana"),
-                text("Karnal")
+        $(".table-responsive").shouldHave(text("Andrey"));
+        $(".table-responsive").shouldHave(text("Matrosov"));
+        $(".table-responsive").shouldHave(text("1234567890"));
+        $(".table-responsive").shouldHave(text("17 November,1994"));
+        $(".table-responsive").shouldHave(text("English"));
+        $(".table-responsive").shouldHave(text("Sports, Reading, Music"));
+        $(".table-responsive").shouldHave(text("amtrsv.png"));
+        $(".table-responsive").shouldHave(text("Moscow"));
+        $(".table-responsive").shouldHave(text("Haryana"));
+        $(".table-responsive").shouldHave(text("Karnal"));
 
-                );
+
     }
 
     }
